@@ -115,35 +115,6 @@ public class Dijkstras {
 		return result;
 	}
 
-	private static List<Integer> straightForwardShortestPath(Node left, int path, int targetId, Set<Node> visitedNodes,
-															 List<Integer> shortestList, List<String> pathList) {
-
-		if(left.id == targetId) {
-			shortestList.add(path);
-
-			/*if(Objects.equals(pathList.get(pathList.size() - 1), "[140]")
-					|| Objects.equals(pathList.get(pathList.size() - 1), "[144]")) {
-				pathList.add(left.id.toString());
-				for (String id : pathList) {
-					System.out.print(id + " -> ");
-				}
-				System.out.println("null");
-			}*/
-		}
-
-		if(visitedNodes.add(left)) {
-			for (Edge edge : left.edgeList) {
-				//List<String> newPathList = new ArrayList<>(pathList);
-				//newPathList.add(left.id.toString());
-				//newPathList.add("[" + (path + edge.value) + "]");
-				straightForwardShortestPath(edge.right, path + edge.value, targetId, new HashSet<>(visitedNodes),
-						shortestList, pathList);
-			}
-		}
-
-		return shortestList;
-	}
-
 	private static Map<Integer, Node> generateDirectedWeightedGraph(int size) {
 
 		Random random = new Random(size);
