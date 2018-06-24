@@ -35,20 +35,6 @@ public class Solution {
         return nodeMap.get(1);
     }
 
-    private static int readInt() {
-        int num = 0;
-        while (pos < buffer.length) {
-            char ch = buffer[pos++];
-            if (ch < '0' || ch > '9') {
-                break;
-            } else {
-                int digit = ch - '0';
-                num = (num << 3) + (num << 1) + digit;
-            }
-        }
-        return num;
-    }
-
     private static int findShortestPath(int target, PriorityQueue<Key> heap, int size, int k) {
         Key start = heap.poll();
         int[] distances = new int[size + 1];
@@ -151,5 +137,19 @@ public class Solution {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static int readInt() {
+        int num = 0;
+        while (pos < buffer.length) {
+            char ch = buffer[pos++];
+            if (ch < '0' || ch > '9') {
+                break;
+            } else {
+                int digit = ch - '0';
+                num = (num << 3) + (num << 1) + digit;
+            }
+        }
+        return num;
     }
 }
