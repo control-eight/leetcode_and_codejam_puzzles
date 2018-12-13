@@ -7,64 +7,52 @@ public class Solution {
     public static void main(String[] args) {
         System.out.println(new Solution().generatePalindromes("aabb"));
         System.out.println(new Solution().generatePalindromes("abc"));
+        System.out.println(new Solution().generatePalindromes("aba"));
         System.out.println(new Solution().generatePalindromes("aaaabbddd"));
         System.out.println(new Solution().generatePalindromes("aaaaaaaaaaaaaaaaaaaaaaaaa"));
     }
 
     public List<String> generatePalindromes(String s) {
-        int[] count = new int[256];
-        for (char c : s.toCharArray()) {
-            count[(int)c]++;
-        }
-        int oddCount = 0;
-        for (int i : count) {
-            oddCount += i % 2 == 1? 1: 0;
-            if (oddCount > 1) {
-                return Collections.emptyList();
-            }
-        }
 
-        List<Character> chars = new LinkedList<>();
-        char last = ' ';
-        for (int i = 0; i < count.length; i++) {
-            if (count[i] % 2 == 1) {
-                last = (char) i;
-            }
-            count[i] /= 2;
-            if (count[i] > 0) {
-                for (int j = 0; j < count[i]; j++) {
-                    chars.add((char) i);
+        int[] chars = new int[128];
+        int check = 0;
+        for (char c : s.toCharArray()) {
+            chars[c]++;
+        }
+        for (int aChar : chars) {
+            check += aChar % 2 == 1? 1: 0;
+        }
+        if (check > 1) return Collections.emptyList();
+
+        Collection<String> acc = new ArrayList<>();
+        if (s.length() % 2 == 0) {
+            generatePalindromes(chars, s.length(), acc, "");
+        } else {
+            for (int i = 0; i < chars.length; i++) {
+                if (chars[i] % 2 == 1) {
+                    char c = (char) i;
+                    chars[i]--;
+                    generatePalindromes(chars, s.length(), acc, c + "");
+                    chars[i]--;
                 }
             }
         }
-
-        Set<String> result = new HashSet<>();
-        generatePalindromes(chars, result, new char[chars.size()]);
-
-        /*List<String> rr = new ArrayList<>(result);
-
-        for (int i = 0; i < rr.size(); i++) {
-            StringBuilder sb = new StringBuilder(rr.get(i));
-            rr.set(i, sb.toString() + (oddCount > 0? last: "") + sb.reverse().toString());
-        }*/
-
-        return null;
+        return new ArrayList<>(acc);
     }
 
-    private void generatePalindromes(List<Character> chars, Set<String> result, char[] arr) {
-        if (chars.isEmpty()) {
-            //result.add(new String(arr));
+    private void generatePalindromes(int[] chars, int length, Collection<String> acc, String str) {
+        if (str.length() == length) {
+            acc.add(str);
             return;
         }
 
-        for (int i = 0; i < arr.length; i++) {
-            //if ((int)arr[i] == 0) {
-                //Character remove = chars.remove(0);
-                arr[i] = chars.get(0);
-                generatePalindromes(chars, result, arr);
-                //chars.add(0, arr[i]);
-                arr[i] = 0;
-            //}
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] > 0) {
+                char c = (char) i;
+                chars[i] -= 2;
+                generatePalindromes(chars, length, acc, c + str + c);
+                chars[i] += 2;
+            }
         }
     }
 }
