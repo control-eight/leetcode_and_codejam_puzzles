@@ -8,6 +8,7 @@ public class BestTimeBuySellStockTransactionFee {
 	public static void main(String[] args) {
 		System.out.println(new BestTimeBuySellStockTransactionFee().maxProfit(new int[] {1, 3, 2, 8, 4, 9}, 2));
 		System.out.println(new BestTimeBuySellStockTransactionFee().maxProfit(new int[] {1, 4, 2, 5}, 2));
+		System.out.println(new BestTimeBuySellStockTransactionFee().maxProfit(new int[] {1, 4, 9, 10}, 2));
 	}
 
 	public int maxProfit(int[] prices, int fee) {

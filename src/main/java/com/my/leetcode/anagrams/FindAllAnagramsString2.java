@@ -36,6 +36,12 @@ public class FindAllAnagramsString2 {
 			int key = c - (int) 'a';
 
 			if(i > (p.length() - 1)) {
+
+
+
+
+
+
 				int prevKey = s.charAt(i - p.length()) - (int) 'a';
 				if(charSet[s.charAt(i - p.length()) - (int) 'a'] > 0) {
 					anagram[prevKey]++;

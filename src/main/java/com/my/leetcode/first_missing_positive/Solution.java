@@ -15,17 +15,17 @@ public class Solution {
     }
 
     public int firstMissingPositive(int[] nums) {
-        Integer minPos = calculateMinPositive(nums);
-        if (minPos == Integer.MAX_VALUE || minPos > 1) return 1;
+        Integer min = calculateMinPositive(nums);
+        if (min == Integer.MAX_VALUE || min > 1) return 1;
 
         for (int i = 0; i < nums.length; i++) {
             int num = nums[i];
-            int index = num - minPos;
+            int index = num - min;
             if (num > 0 && index < nums.length && (index == i || nums[index] != num)) {
                 int tmp = nums[index];
                 nums[index] = num;
                 nums[i] = tmp;
-                if (tmp > 0 && tmp - minPos < nums.length && index != i) {
+                if (tmp - min < nums.length && index != i) {
                     i--;
                 }
             } else {
@@ -44,12 +44,12 @@ public class Solution {
     }
 
     private Integer calculateMinPositive(int[] nums) {
-        Integer minPos = Integer.MAX_VALUE;
+        Integer min = Integer.MAX_VALUE;
         for (int num : nums) {
             if (num > 0) {
-                minPos = Math.min(minPos, num);
+                min = Math.min(min, num);
             }
         }
-        return minPos;
+        return min;
     }
 }

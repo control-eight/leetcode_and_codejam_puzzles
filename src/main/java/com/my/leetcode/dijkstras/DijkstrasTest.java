@@ -4,6 +4,7 @@ import edu.princeton.cs.algorithms.DirectedEdge;
 import edu.princeton.cs.algorithms.EdgeWeightedDigraph;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.PriorityQueue;
 
 import static com.my.leetcode.dijkstras.Dijkstras.Node;
@@ -15,7 +16,7 @@ public class DijkstrasTest {
 
 	public static void main(String[] args) {
 
-		int size = 700000;
+		int size = 60000;
 
 		Map<Integer, Node> nodeMap = Dijkstras.generateDirectedWeightedGraph(size);
 		EdgeWeightedDigraph g = generateForOpt(nodeMap, size);
@@ -47,8 +48,15 @@ public class DijkstrasTest {
 		int minKey33 = new DijkstrasOpt().findShortestPath(size - 1, heap, size);
 		long end33 = System.currentTimeMillis() - start33;
 
-		System.out.println(minKey1 + " vs " + minKey22 + " vs " + minKey33);
-		System.out.println(end1 + " vs " + end22 + " vs " + end33);
+		System.out.println("findShortestPath *...");
+		long start44 = System.currentTimeMillis();
+		heap = new PriorityQueue<>(size);
+		heap.offer(new Key(nodeMap.get(0), 0));
+		int minKey44 = new DijkstrasNotOptShort().findShortestPath(size - 1, heap, size);
+		long end44 = System.currentTimeMillis() - start33;
+
+		System.out.println(minKey1 + " vs " + minKey22 + " vs " + minKey33 + " vs " + minKey44);
+		System.out.println(end1 + " vs " + end22 + " vs " + end33 + " vs " + end44);
 	}
 
 	static EdgeWeightedDigraph generateForOpt(Map<Integer, Dijkstras.Node> nodeMap, int size) {
@@ -76,6 +84,20 @@ public class DijkstrasTest {
 		@Override
 		public int compareTo(Key o) {
 			return distance - o.distance;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Key key = (Key) o;
+			return distance == key.distance &&
+					Objects.equals(node, key.node);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(node, distance);
 		}
 	}
 

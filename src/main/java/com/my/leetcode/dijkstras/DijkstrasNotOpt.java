@@ -19,7 +19,7 @@ public class DijkstrasNotOpt {
 		while(start != null) {
 			if(!visited[start.node.id]) {
 				if(start.node.id == target) {
-					System.out.println("max: " + max);
+					//System.out.println("max: " + max);
 					result = Math.min(start.distance, result);
 				}
 				visited[start.node.id] = true;
